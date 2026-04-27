@@ -1,0 +1,56 @@
+schema_version: 1
+
+context:
+  name: megnet
+  version: "1.3.2"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.io/packages/source/${{ name[0] }}/${{ name }}/megnet-${{ version }}.tar.gz
+  sha256: 0c2de597860fa3caeefc3591f01fe48e8cc70adbda812f5b72a47c3eb6361a99
+
+build:
+  number: 1
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+  python:
+    entry_points:
+      - meg = megnet.cli.meg:main
+
+requirements:
+  host:
+    - pip
+    - setuptools
+    - python ${{ python_min }}.*
+  run:
+    - monty
+    - numpy
+    - pymatgen >=2019.10.4
+    - python >=${{ python_min }}
+    - scikit-learn
+    - tensorflow
+
+tests:
+  - python:
+      imports:
+        - megnet
+      pip_check: true
+      python_version: ${{ python_min }}.*
+  - requirements:
+      run:
+        - pip
+    script:
+      - meg --help
+
+about:
+  summary: MatErials Graph Networks for machine learning of molecules and crystals.
+  license: BSD-3-Clause
+  license_file: LICENSE.md
+  homepage: https://pypi.org/project/megnet/
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
