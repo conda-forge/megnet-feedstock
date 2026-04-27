@@ -23,12 +23,13 @@ build:
 requirements:
   host:
     - pip
-    - python >=3.6
+    - setuptools
+    - python ${{ python_min }}.*
   run:
     - monty
     - numpy
     - pymatgen >=2019.10.4
-    - python >=3.6
+    - python >=${{ python_min }}
     - scikit-learn
     - tensorflow
 
